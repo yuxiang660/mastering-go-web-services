@@ -102,6 +102,7 @@ mysql> show tables;
 
 ## Hello World via API
 * [http-hello](./code/hello/hello.go)
+    - open [http://localhost:8080/api](http://localhost:8080/api)
 
 ## Build first route
 * Multiplexer
@@ -110,4 +111,6 @@ mysql> show tables;
         - /api/user -> func apiUser
         - /api/message -> func apiMessage
         - /api/status -> func apiStatus
-
+* [router-gorilla](./code/router-gorilla/hello.go)
+    - `gorilla/mux`是一个GO语言的URL Router and Dispatcher
+    - open [http://localhost:8080/api/123](http://localhost:8080/api/123)
