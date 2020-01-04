@@ -101,10 +101,19 @@ mysql> show tables;
 ```
 
 ## Hello World via API
-* [http-hello](./code/hello/hello.go)
+* [http-hello-to-client](./code/hello/hello.go)
     - open [http://localhost:8080/api](http://localhost:8080/api)
+    - 服务器向浏览器发送Hello字符串
+* [http-hello-to-server](./code/hello/hello-to-server.go)
+    - 在浏览器输入<br>
+    > http://localhost:8080/send?word=hello
+    - 在服务器CMD窗口中显示hello字样
+    - 工作过程：<br>
+        - 浏览器通过GET包传来URL: http://localhost:8080/send?word=hello
+        - 被Go语言的HTTP包解析出RequestURI: `/send?word=hello`
+        - 再通过`http.Request.FormValue("word")`得到RequestURI里面以`word`为key的字符串`hello`
 
-## Build first route
+## Building first route
 * Multiplexer
     - refers to taking URLs or URL paterns and translating them into internal functions
     - mapping from a request to a function
@@ -114,3 +123,13 @@ mysql> show tables;
 * [router-gorilla](./code/router-gorilla/hello.go)
     - `gorilla/mux`是一个GO语言的URL Router and Dispatcher
     - open [http://localhost:8080/api/123](http://localhost:8080/api/123)
+
+## Getting and Setting data via HTTP
+* 连接MySQL: [mysql-connect](./code/mysql/connect.go)
+    - `root`账户可能会没有权限写入数据库
+* 与MySQL进行数据交互：[mysql-get-set-data](./code/mysql/get-set-data.go)
+    - 写数据到数据库<br>
+    > http://localhost:8080/api/user/create?user=nkozyra&first=Nathan&last=Kozyra&email=nathan@nathankozyra.com
+    - 从数据库读数据<br>
+    > http://localhost:8080/api/user/read/1
+    - 写数据的过程
