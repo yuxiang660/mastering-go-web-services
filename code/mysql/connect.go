@@ -1,0 +1,17 @@
+package main
+
+import (
+	_ "github.com/go-sql-driver/mysql"
+
+	"database/sql"
+	"log"
+)
+
+func main() {
+	// db, err := sql.Open("mysql", "user:password@tcp(127.0.0.1:3306)/social_network")
+	db, err := sql.Open("mysql", "root@/social_network")
+	if err != nil {
+		log.Println(err)
+	}
+	defer db.Close()
+}
