@@ -211,3 +211,14 @@ SHOW INDEX FROM users_relationships;
 * RETRIEVE(READ) -- GET
 * UPDATE -- PUT/PATCH
 * DELETE -- DELETE
+### Endpoints 设计
+|    Endpoint   | Method  | Purpose                                           |
+|:-------------:|---------|---------------------------------------------------|
+| /api          | OPTIONS | To outline the available actions within the API   |
+| /api/users    | GET     | To return users with optional filtering paramters |
+| /api/users    | POST    | To create a user                                  |
+| /api/user/123 | PUT     | To update a user with the ID 123                  |
+| /api/user/123 | DELETE  | To delete a user with the ID 123                  |
+
+* [mysql-get-set-data-at-same-endpoint](./code/mysql/get-set-data-at-same-endpoint.go)
+    - 利用Gorilla的`Methods()`方法去区分这个包是GET还是POST
