@@ -112,6 +112,18 @@ mysql> show tables;
         - 浏览器通过GET包传来URL: http://localhost:8080/send?word=hello
         - 被Go语言的HTTP包解析出RawQuery: `word=hello`
         - 再通过`http.Request.FormValue("word")`得到RawQuery里面以`word`为key的字符串`hello`
+* 往Http包的Header中写入信息：[hello-set-header.go](./code/hello/hello-set-header.go)
+    - 输入下面命令测试：<br>
+    > curl --head http://localhost:8080
+    - 返回输入数据：
+    ```
+    HTTP/1.1 200 OK
+    Pragma: no-cache
+    Date: Sun, 05 Jan 2020 01:33:14 GMT
+    Content-Length: 5
+    Content-Type: text/plain; charset=utf-8
+    ```
+    其中`Pragma: no-cache`就是通过`w.Header().Set("Pragma", "no-cache")`配置进去的。
 
 ## Building first route
 * Multiplexer
