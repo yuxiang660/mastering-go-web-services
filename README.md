@@ -110,8 +110,8 @@ mysql> show tables;
     - 在服务器CMD窗口中显示hello字样
     - 工作过程：<br>
         - 浏览器通过GET包传来URL: http://localhost:8080/send?word=hello
-        - 被Go语言的HTTP包解析出RequestURI: `/send?word=hello`
-        - 再通过`http.Request.FormValue("word")`得到RequestURI里面以`word`为key的字符串`hello`
+        - 被Go语言的HTTP包解析出RawQuery: `word=hello`
+        - 再通过`http.Request.FormValue("word")`得到RawQuery里面以`word`为key的字符串`hello`
 
 ## Building first route
 * Multiplexer
@@ -132,4 +132,13 @@ mysql> show tables;
     > http://localhost:8080/api/user/create?user=nkozyra&first=Nathan&last=Kozyra&email=nathan@nathankozyra.com
     - 从数据库读数据<br>
     > http://localhost:8080/api/user/read/1
-    - 写数据的过程
+    - 创建用户的过程<br>
+        - 浏览器通过GET包（正常应该用Post包发送，这里为了方便，将数据直接从URI中发送过来了）将数据通过`http.Request`发送到服务器
+        - `http.Request`根据Key值，解析出对应的Value
+        - 在`CreateUser`回调函数中，将数据组装好后，写入数据库
+        - 打印数据后返回
+    - 读取用户的过程<br>
+        - 浏览器发送GET包到服务器，并带上`ID`参数
+        - 在`GetUser`回调函数中，从数据库中找到此`ID`对应的数据
+        - 将数据库返回的数据编码成JSON格式后，通过`http.ResponseWriter`返回给浏览器
+
