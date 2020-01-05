@@ -228,3 +228,44 @@ SHOW INDEX FROM users_relationships;
 * 对URI进行简单的正则表达式检查：[router-regex-raw](./code/router-regex/raw.go)
     - 浏览器输入：[http://localhost:8080/testing1](http://localhost:8080/testing13)，不满足
     - 浏览器输入：[http://localhost:8080/testing1](http://localhost:8080/testing1234)，满足
+
+## WebSockets
+* [How to Use Websockets in Golang](https://yalantis.com/blog/how-to-build-websockets-in-go/)
+* Network socket
+    - Datagram sockets (SOCK_DGRAM): UDP, connectionless sockets
+    - Stream sockets (SOCK_STREAM): TCP, SCTP, DCCP, connection-oriented sockets
+    - Raw sockets (raw IP sockets): available in routeres and other networking equipment
+* WebSockets
+    - Don't require clients to send a request in order to get a response
+    - One handshake between a browser and server for establishing a connection that will remain active throughout its lifetime
+    - a client request looks like:<br>
+    ```
+    GET /chat HTTP/1.1
+    Host: server.example.com
+    Upgrade: websocket
+    Connection: Upgrade
+    Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+    Sec-WebSocket-Protocol: chat, superchat
+    Sec-WebSocket-Version: 13
+    Origin: http://example.com
+    ```
+    - server response:<br>
+    ```
+    HTTP/1.1 101 Switching Protocols
+    Upgrade: websocket
+    Connection: Upgrade
+    Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+    Sec-WebSocket-Protocol: chat
+    ```
+* WebSocket是对RESTful API的一种补充，应对某些特殊的S/C交互。WebSocket其实是一个遵守HTTP协议的TCP的长连接，提供的接口和普通`socket`类似（`read/write`函数）。
+* WebSocket Hello
+    - [websocket-hello-server](./code/websocket/hello-server.go)
+    - [websocket-hello-client](./code/websocket/hello-client.html)
+    - 启动服务器后，在浏览器输入：[http://localhost:8080/wsclient](http://localhost:8080/wsclient)
+    - 由于常规情况下，浏览器无法向服务器发送带websocket格式(`Upgrade: websocket`)的包，所以client要利用JS和WebSocket服务器通信。
+    - URI:`/wsclient`会打开`hello-client.html`网页，此网页会连接服务器的URI:`/ws`，然后进行WebSocket通信。
+* WebSocket Echo Length
+    - [websocket-echo-length-server](./code/websocket/echo-length-server.go)
+    - [websocket-echo-length-client](./code/websocket/echo-length-client.html)
+    - 启动服务器后，在浏览器中输入：[http://localhost:12345/websocket](http://localhost:12345/websocket)
+

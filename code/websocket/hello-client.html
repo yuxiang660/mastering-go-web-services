@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <h2>Client of Hello SocketWeb Demo</h2>
+
+  <script>
+    function update(msg) {
+      $('#messageArea').html(msg);
+    }
+
+    let socket = new WebSocket("ws://127.0.0.1:8080/ws");
+    console.log("Attempting Connection...");
+
+    socket.onopen = () => {
+      console.log("Successfully Connected");
+      socket.send("SocketWeb Client is Coming...")
+    };
+    
+    socket.onmessage = function (message) {
+      update('Message from SocketWeb Server: ' + message.data);
+    };
+
+    socket.onclose = event => {
+      console.log("Socket Closed Connection: ", event);
+      update('Websocket closed');
+    };
+
+  </script>
+  <div id="messageArea"></div>
+</body>
+
+</html>
