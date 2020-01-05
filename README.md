@@ -222,3 +222,9 @@ SHOW INDEX FROM users_relationships;
 
 * [mysql-get-set-data-at-same-endpoint](./code/mysql/get-set-data-at-same-endpoint.go)
     - 利用Gorilla的`Methods()`方法去区分这个包是GET还是POST
+
+# Chapter 3. Routing and Bootstrapping
+## Writing custom routers in Go
+* 对URI进行简单的正则表达式检查：[router-regex-raw](./code/router-regex/raw.go)
+    - 浏览器输入：[http://localhost:8080/testing1](http://localhost:8080/testing13)，不满足
+    - 浏览器输入：[http://localhost:8080/testing1](http://localhost:8080/testing1234)，满足
