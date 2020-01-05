@@ -98,6 +98,8 @@ mysql> CREATE TABLE users (
 );
 # 查看表格
 mysql> show tables;
+# 查看表格中的数据
+mysql> select * from users;
 ```
 
 ## Hello World via API
@@ -154,3 +156,58 @@ mysql> show tables;
         - 在`GetUser`回调函数中，从数据库中找到此`ID`对应的数据
         - 将数据库返回的数据编码成JSON格式后，通过`http.ResponseWriter`返回给浏览器
 
+# Chapter 2. RESTful Services in Go
+## 配置MySQL数据库
+* 将`user_email`加上`UNIQUE INDEX`属性
+```sql
+-- 准备工作
+> show databases;
+> use social_network;
+> show tables;
+> select * from users;
+-- 删除重复的行
+> DELETE FROM users WHERE user_id=3;
+-- 修改属性
+> ALTER TABLE users ADD UNIQUE INDEX user_email (user_email);
+```
+* 添加新表，用于表示用户关系
+```sql
+-- 添加users_relationships表
+CREATE TABLE users_relationships (
+    users_relationship_id INT(13) NOT NULL,
+    from_user_id INT(10) NOT NULL,
+    to_user_id INT(10) UNSIGNED NOT NULL,
+    users_relationship_type VARCHAR(10) NOT NULL,
+    users_relationship_timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (users_relationship_id),
+    INDEX from_user_id (from_user_id),
+    INDEX to_user_id (to_user_id),
+    INDEX from_user_id_to_user_id (from_user_id, to_user_id),
+    INDEX from_user_id_user_id_users_relationship_type (from_user_id, to_user_id, users_relationship_type)
+);
+-- 查看新建表的Index
+SHOW INDEX FROM users_relationships;
+```
+## 编码格式
+### JSON
+* [json-hello](./code/json/hello.go)
+### XML
+* [xml-hello](./code/xml/hello.go)
+### YAML
+* [yaml-hello](./code/yaml/hello.go)
+
+## Comparing the HTTP actions and methods
+### POST and PUT
+* Post - Createing data
+* PUT - Updating data
+* 例如对同样的URI：/api/users/1234
+    - Post request to `/api/users/1234` will tell our web service that we will be creating a new user resource based on the data within.
+    - Put request to `/api/users/1234` will tell our web service that we're accepting data that will update or overwrite the user resource data for our user with the ID 1234.
+### PUT and PATCH
+* Put - 更新整个资源
+* Patch - 更新部分资源
+### CRUD and REST
+* CREATE -- POST
+* RETRIEVE(READ) -- GET
+* UPDATE -- PUT/PATCH
+* DELETE -- DELETE

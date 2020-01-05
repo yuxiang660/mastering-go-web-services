@@ -8,7 +8,7 @@ import (
 )
 
 type API struct {
-	Message string "jsong:message"
+	Message string "json:message"
 }
 
 func Hello(w http.ResponseWriter, r *http.Request) {
