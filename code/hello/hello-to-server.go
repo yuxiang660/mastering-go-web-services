@@ -6,10 +6,6 @@ import (
 	"net/http"
 )
 
-func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.FormValue("word"))
-}
-
 func main() {
 
 	gorillaRoute := mux.NewRouter()
