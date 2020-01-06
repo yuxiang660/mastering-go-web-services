@@ -269,3 +269,10 @@ SHOW INDEX FROM users_relationships;
     - [websocket-echo-length-client](./code/websocket/echo-length-client.html)
     - 启动服务器后，在浏览器中输入：[http://localhost:12345/websocket](http://localhost:12345/websocket)
 
+# Chapter 5. Templates and Options in Go
+## HTTPS
+* [https-hello](./code/https/hello.go)
+    - 利用Go工具生成钥匙：`cert.go`和`key.pem`<br>
+    > go run generate_cert.go --host localhost --ca true
+
+
